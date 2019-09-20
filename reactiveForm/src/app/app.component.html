@@ -1,0 +1,118 @@
+<div class="container-fluid">
+  <h2>Registration Form</h2>
+
+  {{registrationForm.value | json}}
+  <hr/>
+  <hr/>
+
+  <form [formGroup]="registrationForm" >
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" [class.is-invalid]="
+      registrationForm.get('userName').invalid &&
+      registrationForm.get('userName').touched"  formControlName="userName" name="username" id="username"
+       class="form-control" placeholder="Enter UserName" aria-describedby="helpId">
+       <!-- <small [class.d-none]="registrationForm.get('userName').valid || 
+                              registrationForm.get('userName').untouched  "
+       class="text-danger" >Username is required</small> -->
+      <div *ngIf="registrationForm.get('userName').invalid && registrationForm.get('userName').touched ">
+        <small *ngIf="registrationForm.get('userName').errors?.required"
+               class="text-danger" >Username is required</small>
+        
+        <small *ngIf=" registrationForm.get('userName').errors?.minlength"         
+        class="text-danger" >Username should be atleast 3 characters </small>
+
+        <small *ngIf=" registrationForm.get('userName').errors?.forbiddenName"         
+        class="text-danger" >{{userName.errors?.forbiddenName.value}} cannot be used as username</small>
+
+      </div>
+
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input [class.is-invalid]="
+        registrationForm.get('email').invalid &&
+        registrationForm.get('email').touched"
+        type="email" class="form-control" formControlName="email" id="email" aria-describedby="emailHelpId" placeholder="Enter your email">
+        <small id="emailHelpId" class="form-text text-muted">Enter Valid Email</small>
+      </div>
+
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox"
+          [class.is-invalid]="
+      registrationForm.get('subscribe').invalid &&
+      registrationForm.get('subscribe').touched" class="form-check-input" formControlName="subscribe" id="checkbox" value="checkedValue"  >
+          Send me Promotional Offer
+        </label>
+      </div>
+
+
+    </div>
+<div class="form-group">
+  <label for="">Password</label>
+  <input type="password" 
+  [class.is-invalid]="password.invalid &&
+                      password.touched"
+  formControlName="password" class="form-control" name="" id="" placeholder="Enter Password">
+  <!-- <small [class.d-none]="password.valid || 
+  password.untouched  "
+class="text-danger" >Password is required</small> -->
+
+<div *ngIf="password.invalid && password.touched ">
+  <small *ngIf="password.errors?.required"
+         class="text-danger" >Password is required</small>
+  
+  <small *ngIf=" password.errors?.minlength"         
+  class="text-danger" >Password should be atleast 4 length long </small>
+
+</div>
+
+</div>
+
+ <div class="form-group">
+   <label for="re-password">Confirm Password</label>
+   <input 
+   [class.is-invalid]="registrationForm.errors?.mismatch"
+   type="password" formControlName="confirmPassword" class="form-control"
+    name="re-password" id="re-password" placeholder="Re-enter Password">
+    <small *ngIf="registrationForm.errors?.mismatch" class="text-danger">Password mismatches</small>
+ </div>
+ 
+ <div formGroupName="address">
+
+  <div class="form-group">
+    <label for="city">City</label>
+    <input 
+     type="text" formControlName="city"
+      class="form-control" name="city" id="city" aria-describedby="helpId" placeholder="Enter City">
+    
+  </div>
+
+  <div class="form-group">
+    <label for="state">State</label>
+    <input 
+    [class.is-invalid]="registrationForm.maachuda.valid && 
+    registrationForm.gandMAra.touched"
+      type="text" formControlName="state"
+      class="form-control" name="state" id="state" aria-describedby="helpId" placeholder="Enter State">
+    
+  </div>
+
+  <div class="form-group">
+    <label for="postal-code">Postal Code</label>
+    <input 
+    type="text" formControlName="postalCode"
+      class="form-control" name="postal-code" id="postal-code" aria-describedby="" placeholder="Enter Postal Code">
+    
+  </div>
+
+
+ </div>
+
+ <button type="submit" (click)="submit()" class="btn btn-primary">Register</button>
+ <button (click)="loadApiData()" name="api" id="api" class="btn btn-secondary ml-2" type="button" >Load Api Data</button>
+  </form>
+
+  
+</div>
