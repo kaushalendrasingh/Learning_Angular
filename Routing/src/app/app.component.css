@@ -1,0 +1,9 @@
+nav a.active {
+
+    color: rgb(82, 241, 8)
+}
+
+.items li.selected { 
+    background-color: #cfd8dc;
+    color: white;
+}
