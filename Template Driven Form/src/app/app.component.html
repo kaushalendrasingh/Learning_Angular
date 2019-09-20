@@ -1,0 +1,123 @@
+<!-- Html Form with help of bootstrap -->
+
+<!-- There are 3 types of ng directive used in template driven forms
+These are 
+1. ngModel
+2. ngModelGroup
+3. forms Module it is included in the app.module.ts component
+ -->
+
+<div class="container-flu"> 
+ <h1> Bootcamp Enrollment Form</h1>
+
+ <div class ="alert alert-danger" *ngIf = "errorMsg"> 
+   {{errorMsg}} </div>
+ <!-- Here #userForm is Template Reference Variable which contains ngForm directive -->
+ <form #userForm ="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate *ngIf="!submitted">  
+<!-- Template Reference Variable is used to get all the values of the forms and binded here to show all in the form the json file-->
+{{userForm.value | json}}
+<hr />
+<!-- A model is created which contains all the value and we send this model to the server it contains all the binded value   -->
+{{userModel | json}}
+<hr/>
+
+{{userForm.form.valid}}
+
+<hr/>
+<hr/>
+
+
+<!-- <div ngModelGroup = "address"> 
+  <div class ="form-group">
+    <label> Street </label>
+    <input type="text" class="form-control"  name="street" id="" ngModel>
+  </div>
+  <div class ="form-group">
+    <label> City </label>
+    <input type="text" class="form-control"  name="city" id="" ngModel>
+  </div>
+  <div class ="form-group">
+    <label> State </label>
+    <input type="text" class="form-control"  name="state" id="" ngModel>
+  </div>
+  <div class ="form-group">
+    <label> Postal code </label>
+    <input type="text" class="form-control"  name="postalcode" id="" ngModel>
+  </div>
+</div> -->
+
+<div class="form-group">
+  <label >Name</label>
+  <!-- Two way binding is used which shows change data in model with change in the form data consequently -->
+  <!-- name is must to add with ngModel directive -->
+  <input type="text"
+    class="form-control" [class.is-invalid]="name.invalid && name.touched" 
+    [class.is-valid]="name.valid" required  #name="ngModel" name="userName"   
+    [(ngModel)]="userModel.name" >
+    <small class="text-danger" [class.d-none]="name.valid || name.untouched" >Name is required</small>
+</div>
+{{name.className}}
+
+
+  <div class="form-group">
+    <label >Email</label>
+    <input type="email" #email="ngModel" [class.is-valid]="email.touched && email.valid"  required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+    [class.is-invalid]="email.invalid && email.touched" name="email"  class="form-control"  [(ngModel)]="userModel.email" >
+  <div *ngIf="email.errors && (email.valid || email.touched)">
+    <small class=text-danger *ngIf="email.errors.required">Email is Required</small>
+    <small class="text-danger" *ngIf="email.errors.pattern" >Enter Valid Email Address</small>
+
+
+  </div>
+  </div>
+
+  <div class="form-group">
+    <label >Phone</label>
+    <input type="tel" required [class.is-valid]="phone.valid " 
+      class="form-control" #phone="ngModel" pattern="\d{10}$" [class.is-invalid]="phone.invalid && phone.touched" 
+     name="phone"    [(ngModel)]="userModel.phone">
+     <!-- <small class="text-danger" [class.d-none]="phone.valid || phone.untouched" > Phone Number Must be 10 digits</small> -->
+ <div *ngIf="phone.errors && (phone.valid || phone.touched)">
+    <small class="text-danger" *ngIf="phone.errors.required" > Phone Number is Required</small>
+    <small class="text-danger" *ngIf="phone.errors.pattern" > Phone Number Must be 10 digit</small>
+ </div>
+
+  </div>
+ 
+  <div class="form-group">
+    <label for=""> Select </label>
+    <select #topic="ngModel" (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" 
+    [class.is-invalid]="topicHasError && topic.touched" 
+    [class.is-valid]="!topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic" >
+    <option value="default">I am interested in</option>
+       <option  *ngFor="let topic of topics" >{{topic}}</option>
+    </select>
+   <small class="text-danger" [class.d-none]="!topicHasError || topic.untouched" >Please choose a valid option</small>
+  </div>
+
+  <div class="form-check">
+    <label class="form-check-label">
+    <input  [(ngModel)]="userModel.timePreference" type="radio" class="form-check-input" name="timePreference"  value="morning" >
+          Morning (9AM - 12PM)
+    </label>
+  </div>
+
+  <div class="form-check">
+    <label class="form-check-label">
+    <input [(ngModel)]="userModel.timePreference" type="radio" class="form-check-input" name="timePreference"  value="evening" >
+          Evening (5PM-8PM)
+    </label>
+  </div>
+
+    <br>
+  <div class="form-check">
+    <label class="form-check-label">
+    <input [(ngModel)]="userModel.subscribe" type="checkbox" class="form-check-input" name="subscribe"  value="checkedValue" checked>
+          Send me Promotional Offers
+    </label>
+  </div>
+ <button name="" [disabled]="userForm.form.invalid || topicHasError" class="btn btn-primary" type="submit">Submit Form</button>   
+  
+</form>
+  
+ </div>
